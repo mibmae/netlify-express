@@ -19,6 +19,7 @@ const port = 3001;
 const db = {
   users: {
     'bouclierman@herocorp.io': {
+      email: 'bouclierman@herocorp.io',
       password: 'jennifer',
       username: 'John',
       color: '#c23616',
