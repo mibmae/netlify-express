@@ -50,12 +50,27 @@ const keywords = [
   {
   id: 2,
   name:'message',
-  text:'Voulez vous me laisser un message ?',
+  text:'Tapez la commande `send votre message`',
+  },
+  {
+  id: 12,
+  name:'mail',
+  text:'Mon adresse mail est : mibmae@gmail.com',
+  },
+  {
+  id: 13,
+  name:'disponibilite',
+  text:'Bonjour, je suis actuellement disponible en ce moment, je vous laisse mon adresse mail afin de pouvoir me contacter "mibmae@gmail.com". Cordialement, Guilhem.',
   },
   {
   id: 3,
   name:'github',
-  text:"Voici l'adresse de mon repo Github : http://www.google.fr",
+  text:'Voici l\'adresse de mon repo Github : http://github.com/mibmae' ,
+  },
+  {
+  id: 3,
+  name:'help',
+  text:"Voici la liste des fonctions disponibles : 'Message' 'Téléphone' 'Github'",
   }
 ]
 
@@ -65,18 +80,23 @@ io.on('connection', (ws) => {
   users['USER_NAME'] = socket.id;
   console.log(ws.id);
   console.log('>> socket.io - connected');
-  io.to(ws.id).emit('private_message', `Bonjour, Voila la liste des fonctions disponibles : 'Message' 'Téléphone' 'Github'`);
+  io.to(ws.id).emit('private_message', `Bonjour, Voici la liste des fonctions disponibles : "Message" "Téléphone" "Github"`);
   ws.on('client_message', (message) => {
+    console.log(message);
     // eslint-disable-next-line no-plusplus
     message.id = ++id;
     messages = message.toLowerCase();
     message = deleteAccents(messages);
-    console.log(message);
     
-    console.log('ok', message)
     let ask = keywords.find(aks => aks.name === message);
     console.log(ask);
-    io.to(ws.id).emit('private_message', `${ask.text}`);
+
+    if (ask === undefined) {
+      io.to(ws.id).emit('private_message', `!!!!! Cette commande n'existe pas !!!!!, tapez "help" pour avoir la liste des commandes.`);
+    } else {
+      io.to(ws.id).emit('private_message', `${ask.text}`);
+    }
+    
   });
 });
 
