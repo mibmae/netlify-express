@@ -16,6 +16,22 @@ const server = Server(app);
 const io = socket(server);
 const port = 3001;
 
+
+app.get('/', (request, response) => {
+  response.send(`
+    <div style="margin: 5em auto; width: 400px; line-height: 1.5">
+      <h1 style="text-align: center">Hello!</h1>
+      <p>Si tu vois ce message, c'est que ton serveur est bien lancé !</p>
+      <div>Désormais, tu dois venir utiliser l'API</div>
+      <ul style="display: inline-block; margin-top: .2em">
+        <li><code>POST http://localhost:${port}/login</code></li>
+        <li><code>POST http://localhost:${port}/forgot</code></li>
+        <li><code>GET http://localhost:${port}/theme/{email}</code></li>
+      </ul>
+    </div>
+  `);
+});
+
 const deleteAccents = (str) => {
   var accent = [
   /[\300-\306]/g, /[\340-\346]/g, // A, a
